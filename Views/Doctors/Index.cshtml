@@ -1,0 +1,33 @@
+﻿@model IEnumerable<LabAssist_V_3._0.Data.Doctor>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+
+<p>
+    <a onclick="showInPopup('@Url.Action("AddOrEdit","doctors",null,Context.Request.Scheme)','New Doctor')"><button type="button" class="btn btn-block btn-primary btn-lg">Add New Doctor</button></a>
+</p>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Right column -->
+            <div class="col-md">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">All Doctors</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <div id="view-all">
+                            @await Html.PartialAsync("_ViewAll", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
