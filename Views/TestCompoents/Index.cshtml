@@ -1,0 +1,97 @@
+﻿@model IEnumerable<LabAssist_V_3._0.Data.TestCompoent>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+    <p>
+        <a asp-action="Create"><button type="button" class="btn btn-block btn-primary btn-lg">Add New Test Compoent</button></a>
+    </p>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Right column -->
+            <div class="col-md">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">All Test Components</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <div id="view-all">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.ComponentName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.UOM)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.RefRange)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Percentage)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CTM)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CMax)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CMin)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Item)
+                                        </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ComponentName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UOM)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.RefRange)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Percentage)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CTM)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CMax)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CMin)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Item.ItemName)
+                                            </td>
+                                            <td>
+                                                <a asp-action="Edit" asp-route-id="@item.TestComponentID">Edit</a> |
+                                                <a asp-action="Details" asp-route-id="@item.TestComponentID">Details</a> |
+                                                <a asp-action="Delete" asp-route-id="@item.TestComponentID">Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

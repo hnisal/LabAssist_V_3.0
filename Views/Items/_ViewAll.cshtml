@@ -1,0 +1,46 @@
+﻿@model IEnumerable<LabAssist_V_3._0.Data.Item>
+
+<table id="example1" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemCatergory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UOM)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemPrice)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemCatergory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UOM)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemPrice)
+                </td>
+                <td>
+                    <a onclick="showInPopup('@Url.Action("AddOrEdit","items",new {id =item.ItemID },Context.Request.Scheme)','Edit Item')" class="btn-xs btn-success text-white">Edit</a> |
+                    <form asp-action="Delete" asp-route-id="@item.ItemID" onsubmit="return jQueryAjaxDelete(this);">
+                        <input type="submit" value="Delete" class="btn-xs btn-danger" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

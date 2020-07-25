@@ -1,0 +1,40 @@
+﻿@model LabAssist_V_3._0.Data.Invoice
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Customer</h3>
+        </div>
+        <form asp-action="AddOrEdit" asp-route-id="@Model.InvocieID" role="form" onsubmit="return jQueryAjaxPost(this);">
+            <div class="card-body">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="InvocieID" />
+                <div class="form-group">
+                    <label asp-for="PreparedBy" class="control-label"></label>
+                    <input asp-for="PreparedBy" class="form-control" />
+                    <span asp-validation-for="PreparedBy" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InvoiceData" class="control-label"></label>
+                    <input asp-for="InvoiceData" class="form-control" />
+                    <span asp-validation-for="InvoiceData" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InvoiceState" class="control-label"></label>
+                    <select asp-for="InvoiceState" asp-items="Html.GetEnumSelectList<LabAssist_V_3._0.Models.InvoiceState>()" class="form-control">
+                        <option selected="selected" value="">Please select</option>
+                    </select>
+                    <span asp-validation-for="InvoiceState" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

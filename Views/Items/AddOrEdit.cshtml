@@ -1,0 +1,52 @@
+﻿@model LabAssist_V_3._0.Data.Item
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- left column -->
+<div class="col-md">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Item</h3>
+        </div>
+        <form asp-action="AddOrEdit" asp-route-id="@Model.ItemID" role="form" onsubmit="return jQueryAjaxPost(this);">
+            <div class="card-body">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ItemID" />
+                <div class="form-group">
+                    <label asp-for="ItemName" class="control-label"></label>
+                    <input asp-for="ItemName" class="form-control" />
+                    <span asp-validation-for="ItemName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ItemCatergory" class="control-label"></label>
+                    @*<input asp-for="ItemCatergory" class="form-control" />*@
+                    <select asp-for="ItemCatergory" asp-items="Html.GetEnumSelectList<LabAssist_V_3._0.Data.ItemCatergory>()"  class="form-control">
+                        <option selected="selected" value="">Please select</option>
+                    </select>
+                    <span asp-validation-for="ItemCatergory" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UOM" class="control-label"></label>
+                    @*<input asp-for="UOM" class="form-control" />*@
+                    <select asp-for="UOM" asp-items="Html.GetEnumSelectList<LabAssist_V_3._0.Data.UOM>()" class="form-control">
+                        <option selected="selected" value="" >Please select</option>
+                    </select>
+                    <span asp-validation-for="UOM" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ItemPrice" class="control-label"></label>
+                    <input asp-for="ItemPrice" class="form-control" />
+                    <span asp-validation-for="ItemPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

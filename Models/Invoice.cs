@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LabAssist_V_3._0.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,6 +20,6 @@ namespace LabAssist_V_3._0.Data
         public DateTime InvoiceData { get; set; }
         [Required]
         [Display(Name = "State")]
-        public string State { get; set; }// Open,partially paid, paid
+        public InvoiceState? InvoiceState { get; set; }// Open,partially paid, paid
     }
 }

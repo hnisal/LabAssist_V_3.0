@@ -1,0 +1,42 @@
+﻿@model IEnumerable<LabAssist_V_3._0.Data.Invoice>
+
+
+
+    <table  id="example1"  class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PreparedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.InvoiceData)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.InvoiceState)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PreparedBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InvoiceData)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InvoiceState)
+                    </td>
+                    <td>
+                        <a onclick="showInPopup('@Url.Action("AddOrEdit","invoices",new {id =item.InvocieID },Context.Request.Scheme)','Edit Invoice')" class="btn-xs btn-success text-white">Edit</a> |
+                        <form asp-action="Delete" asp-route-id="@item.InvocieID" onsubmit="return jQueryAjaxDelete(this);">
+                            <input type="submit" value="Delete" class="btn-xs btn-danger" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
