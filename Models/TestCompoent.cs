@@ -25,7 +25,7 @@ namespace LabAssist_V_3._0.Data
         public float CMax { get; set; }
         [Display(Name = "Minimum")]
         public float CMin { get; set; }
-
+        [Display(Name = "Item Name")]
         public int ItemID { get; set; }
 
         public Item Item { get; set; }

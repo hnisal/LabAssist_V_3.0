@@ -12,7 +12,9 @@ namespace LabAssist_V_3._0.Data
         [Required]
         [Key]
         public int InvoiceItemID { get; set; }
+        [Display(Name = "Item Name")]
         public int ItemID { get; set; }
+        [Display(Name = "Laboratory")]
         public int LaboratoryID { get; set; }
         [Required]
         [Display(Name = "Unit Of Mesurement")]
