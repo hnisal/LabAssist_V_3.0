@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LabAssist_V_3._0.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,11 +17,14 @@ namespace LabAssist_V_3._0.Data
         [Display(Name = "Preapared By")]
         public string PreparedBy { get; set; }
         [Required]
+        [Display(Name = "Amount")]
+        public float amount { get; set; }
+        [Required]
         [Display(Name = "Paymnt Method")]
-        public string PaymentMethod { get; set; } //Cash Card
+        public PaymentMethod? PaymentMethod { get; set; } //Cash Card
         [Required]
         [Display(Name = "Payment Type")]
-        public string PaymentType { get; set; } //advance Final
+        public PaymentType? PaymentType { get; set; } //advance Final
 
     }
 }

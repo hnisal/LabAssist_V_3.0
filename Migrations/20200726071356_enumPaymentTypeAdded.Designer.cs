@@ -4,14 +4,16 @@ using LabAssist_V_3._0.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LabAssist_V_3._0.Migrations
 {
     [DbContext(typeof(LabAssistDbContext))]
-    partial class LabAssistDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200726071356_enumPaymentTypeAdded")]
+    partial class enumPaymentTypeAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -235,9 +237,6 @@ namespace LabAssist_V_3._0.Migrations
                     b.Property<string>("PreparedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("amount")
-                        .HasColumnType("real");
 
                     b.HasKey("PaymentID");
 
