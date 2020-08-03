@@ -1,4 +1,4 @@
-﻿@model LabAssist_V_3._0.Data.Customer
+﻿@model LabAssist_V_3._0.Models.Customer
 
 @{
     ViewData["Title"] = "Edit";
@@ -18,9 +18,9 @@
                 <div class="form-group">
                     <label asp-for="CustomerType" class="control-label"></label>
                     <br>
-                    <input asp-for="CustomerType" type="radio" name="CustomerType" value="Internal" /> Internal Customer
+                        <input asp-for="CustomerType" type="radio" name="CustomerType" value="Internal" /> Internal Customer
                     <br>
-                    <input asp-for="CustomerType" type="radio" name="CustomerType" value="External" /> External Customer
+                        <input asp-for="CustomerType" type="radio" name="CustomerType" value="External" /> External Customer
                     <span asp-validation-for="CustomerType" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -31,10 +31,9 @@
                 <div class="form-group">
                     <label asp-for="Gender" class="control-label"></label>
                     <br>
-                    <input asp-for="Gender" type="radio" name="Gender" value="Male" /> Male
+                        <input asp-for="Gender" type="radio" name="Gender" value="Male" /> Male
                     <br>
-                    <input asp-for="Gender" type="radio" name="Gender" value="Female" /> Female
-
+                        <input asp-for="Gender" type="radio" name="Gender" value="Female" /> Female
                     <span asp-validation-for="Gender" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -70,6 +69,3 @@
     </div>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

@@ -17,8 +17,13 @@
 });
 */
 
+var isTypeEdit = "add";
 
 showInPopup = (url, title) => {
+    if (title == 'Edit Invoice Item') {
+        isTypeEdit = "edit";
+    }
+
     $.ajax({
         type: 'GET',
         url: url,
@@ -40,11 +45,13 @@ jQueryAjaxPost = form => {
             processData: false,
             success: function (res) {
                 if (res.isValid) {
+                    debugger;
                     $('#view-all').html(res.html)
                     $('#form-modal .modal-body').html('');
                     $('#form-modal .modal-title').html('');
                     $('#form-modal').modal('hide');
-                    $.notify('Submitted Succesfully', { GlobalPosition: 'top-center', className:'success' });
+                    location.reload(true);
+                    debugger;
                 }
                 else
                     $('#form-modal .modal-body').html(res.html);
@@ -71,7 +78,6 @@ jQueryAjaxDelete = form => {
                 processData: false,
                 success: function (res) {
                     $('#view-all').html(res.html);
-                    $.notify('Deleted Succesfully', { GlobalPosition: 'top-center', className:'success' });
                 },
                 error: function (err) {
                     console.log(err)

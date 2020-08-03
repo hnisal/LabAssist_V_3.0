@@ -24,6 +24,15 @@ namespace LabAssist_V_3._0
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddDbContext<LabAssistDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
@@ -45,6 +54,9 @@ namespace LabAssist_V_3._0
             app.UseRouting();
 
             app.UseAuthorization();
+
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

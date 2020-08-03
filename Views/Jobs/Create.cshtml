@@ -1,0 +1,46 @@
+﻿@model LabAssist_V_3._0.Models.Job
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+    <div class="col-md-6">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">New Job Card</h3>
+            </div>
+            <form asp-action="Create" role="form">
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="CustomerId" class="control-label"></label>
+                        <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+                        <a onclick="showInPopup('@Url.Action("AddOrEdit","customers",null,Context.Request.Scheme)','New Customer')"><button type="button" class="btn btn-block btn-secondary btn-sm">Add New Customer</button></a>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DoctorID" class="control-label"></label>
+                        <select asp-for="DoctorID" class="form-control" asp-items="ViewBag.DoctorID">
+                            <option selected="selected" value="">Please select</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="JobDate" class="control-label"></label>
+                        <input asp-for="JobDate" class="form-control" />
+                        <span asp-validation-for="JobDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Branch" class="control-label"></label>
+                        <select asp-for="Branch" asp-items="Html.GetEnumSelectList<LabAssist_V_3._0.Models.Enums.Branch>()" class="form-control">
+                            <option selected="selected" value="">Please select</option>
+                        </select>
+                        <span asp-validation-for="Branch" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+

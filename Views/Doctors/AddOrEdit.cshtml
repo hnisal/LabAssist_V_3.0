@@ -1,57 +1,55 @@
-﻿@model LabAssist_V_3._0.Data.Doctor
+﻿@model LabAssist_V_3._0.Models.Doctor
 
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- left column -->
-<div class="col-md">
-    <div class="card card-primary">
-        <div class="card-header">
-            <h3 class="card-title">Doctor</h3>
-        </div>
-        <form asp-action="AddOrEdit" asp-route-id="@Model.DoctorID" role="form" onsubmit="return jQueryAjaxPost(this);">
-            <div class="card-body">
 
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="DoctorID" />
-                <div class="form-group">
-                    <label asp-for="DoctorName" class="control-label"></label>
-                    <input asp-for="DoctorName" class="form-control" />
-                    <span asp-validation-for="DoctorName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Address" class="control-label"></label>
-                    <input asp-for="Address" class="form-control" />
-                    <span asp-validation-for="Address" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ContactNumber" class="control-label"></label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+    <div class="col-md">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Doctor</h3>
+            </div>
+            <form asp-action="AddOrEdit" asp-route-id="@Model.DoctorID" role="form" onsubmit="return jQueryAjaxPost(this);">
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="DoctorID" />
+                    <div class="form-group">
+                        <label asp-for="DoctorName" class="control-label"></label>
+                        <input asp-for="DoctorName" class="form-control" />
+                        <span asp-validation-for="DoctorName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ContactNumber" class="control-label"></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            </div>
+                            <input asp-for="ContactNumber" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask />
+                            <span asp-validation-for="ContactNumber" class="text-danger"></span>
                         </div>
-                        <input asp-for="ContactNumber" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask />
-                        <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Designation" class="control-label"></label>
+                        <input asp-for="Designation" class="form-control" />
+                        <span asp-validation-for="Designation" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EmailAddress" class="control-label"></label>
+                        <input asp-for="EmailAddress" class="form-control" />
+                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
                     </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Designation" class="control-label"></label>
-                    <input asp-for="Designation" class="form-control" />
-                    <span asp-validation-for="Designation" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EmailAddress" class="control-label"></label>
-                    <input asp-for="EmailAddress" class="form-control" />
-                    <span asp-validation-for="EmailAddress" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
-
 

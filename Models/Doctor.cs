@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LabAssist_V_3._0.Data
+namespace LabAssist_V_3._0.Models
 {
     public class Doctor
     {
@@ -13,19 +13,27 @@ namespace LabAssist_V_3._0.Data
         public int DoctorID { get; set; }
         [Required]
         [StringLength(250)]
+        [Display(Name = "Doctor Name")]
+
         public string DoctorName { get; set; }
         [Required]
         [StringLength(250)]
+        [Display(Name = "Address")]
         public string Address { get; set; }
-        [Required]
         [Phone]
+        [Display(Name = "Contact Number")]
         public string ContactNumber { get; set; }
-        [Required]
         [StringLength(100)]
+        [Display(Name = "Designation")]
         public string Designation { get; set; }
-        [Required]
         [EmailAddress]
         [StringLength(100)]
+        [Display(Name = "Email Address")]
         public string EmailAddress { get; set; }
+
+
+        //------------------------------------------
+        public ICollection<Doctor> Doctors { get; set; }
+
     }
 }

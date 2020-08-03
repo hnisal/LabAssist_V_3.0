@@ -1,6 +1,6 @@
-﻿@model IEnumerable<LabAssist_V_3._0.Data.Doctor>
+﻿@model IEnumerable<LabAssist_V_3._0.Models.Doctor>
 
-<table id="example1" class="table table-bordered table-striped">
+<table id="example1"  class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>
@@ -40,12 +40,12 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.EmailAddress)
                 </td>
-                @*<td>
+                <td>
                     <a onclick="showInPopup('@Url.Action("AddOrEdit","doctors",new {id =item.DoctorID },Context.Request.Scheme)','Edit Doctor')" class="btn-xs btn-success text-white">Edit</a> |
                     <form asp-action="Delete" asp-route-id="@item.DoctorID" onsubmit="return jQueryAjaxDelete(this);">
                         <input type="submit" value="Delete" class="btn-xs btn-danger" />
                     </form>
-                </td>*@
+                </td>
             </tr>
         }
     </tbody>

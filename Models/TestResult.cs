@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LabAssist_V_3._0.Data
+namespace LabAssist_V_3._0.Models
 {
     public class TestResult
     {
         [Required]
-        [Key]
         public int TestResultID { get; set; }
-        [Required]
-        [Display(Name = "Test Result Date ")]
-        public DateTime ResultDate { get; set; }
-        [Required]
+        public int TestComponentID { get; set; }
+        public int JobID { get; set; }
         public string Result { get; set; }
 
-        
+
+        //--------------------------------------------
+        public TestComponent TestComponent { get; set; }
+        public Job Job { get; set; }
     }
 }

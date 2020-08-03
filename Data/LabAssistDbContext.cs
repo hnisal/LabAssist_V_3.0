@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LabAssist_V_3._0.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,24 @@ namespace LabAssist_V_3._0.Data
         {
         }
 
-        public DbSet<Doctor> Doctors { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<TestResult> TestResults { get; set; }
-        public DbSet<TestCompoent> TestCompoents { get; set; }
-        public DbSet<Payment> Payments { get; set; }
-        public DbSet<Job> Jobs { get; set; }
-        public DbSet<Item> Items { get; set; }
-        public DbSet<InvoiceItem> InvoiceItems { get; set; }
-        public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<Laboratory> Laboratories { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<InvoiceItem>()
+                .HasKey(c => new { c.InvoiceID, c.ItemID });
+        }
+
+        public DbSet<CashBook> CashBook { get; set; }
+        public DbSet<Customer> Customer { get; set; }
+        public DbSet<Doctor> Doctor { get; set; }
+        public DbSet<TestResult> TestResult { get; set; }
+        public DbSet<TestComponent> TestComponent { get; set; }
+        public DbSet<Payment> Payment { get; set; }
+        public DbSet<Job> Job { get; set; }
+        public DbSet<Item> Item { get; set; }
+        public DbSet<InvoiceItem> InvoiceItem { get; set; }
+        public DbSet<Invoice> Invoice { get; set; }
+        public DbSet<User> User { get; set; }
+
+
     }
 }

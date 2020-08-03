@@ -19,7 +19,30 @@ namespace LabAssist_V_3._0.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("LabAssist_V_3._0.Data.Customer", b =>
+            modelBuilder.Entity("LabAssist_V_3._0.Models.CashBook", b =>
+                {
+                    b.Property<int>("CashTableID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<int>("CashBookType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaymentID")
+                        .HasColumnType("int");
+
+                    b.HasKey("CashTableID");
+
+                    b.HasIndex("PaymentID");
+
+                    b.ToTable("CashBook");
+                });
+
+            modelBuilder.Entity("LabAssist_V_3._0.Models.Customer", b =>
                 {
                     b.Property<int>("CustomerID")
                         .ValueGeneratedOnAdd()
@@ -57,10 +80,10 @@ namespace LabAssist_V_3._0.Migrations
 
                     b.HasKey("CustomerID");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customer");
                 });
 
-            modelBuilder.Entity("LabAssist_V_3._0.Data.Doctor", b =>
+            modelBuilder.Entity("LabAssist_V_3._0.Models.Doctor", b =>
                 {
                     b.Property<int>("DoctorID")
                         .ValueGeneratedOnAdd()
@@ -73,13 +96,14 @@ namespace LabAssist_V_3._0.Migrations
                         .HasMaxLength(250);
 
                     b.Property<string>("ContactNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Designation")
-                        .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
+
+                    b.Property<int?>("DoctorID1")
+                        .HasColumnType("int");
 
                     b.Property<string>("DoctorName")
                         .IsRequired()
@@ -87,16 +111,17 @@ namespace LabAssist_V_3._0.Migrations
                         .HasMaxLength(250);
 
                     b.Property<string>("EmailAddress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.HasKey("DoctorID");
 
-                    b.ToTable("Doctors");
+                    b.HasIndex("DoctorID1");
+
+                    b.ToTable("Doctor");
                 });
 
-            modelBuilder.Entity("LabAssist_V_3._0.Data.Invoice", b =>
+            modelBuilder.Entity("LabAssist_V_3._0.Models.Invoice", b =>
                 {
                     b.Property<int>("InvocieID")
                         .ValueGeneratedOnAdd()
@@ -109,47 +134,40 @@ namespace LabAssist_V_3._0.Migrations
                     b.Property<int>("InvoiceState")
                         .HasColumnType("int");
 
-                    b.Property<string>("PreparedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("InvoiceTotal")
+                        .HasColumnType("float");
+
+                    b.Property<int>("JobID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
 
                     b.HasKey("InvocieID");
 
-                    b.ToTable("Invoices");
+                    b.HasIndex("JobID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Invoice");
                 });
 
-            modelBuilder.Entity("LabAssist_V_3._0.Data.InvoiceItem", b =>
+            modelBuilder.Entity("LabAssist_V_3._0.Models.InvoiceItem", b =>
                 {
-                    b.Property<int>("InvoiceItemID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("InvoiceID")
+                        .HasColumnType("int");
 
                     b.Property<int>("ItemID")
                         .HasColumnType("int");
 
-                    b.Property<int>("LaboratoryID")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UOM")
-                        .HasColumnType("int");
-
-                    b.HasKey("InvoiceItemID");
+                    b.HasKey("InvoiceID", "ItemID");
 
                     b.HasIndex("ItemID");
 
-                    b.HasIndex("LaboratoryID");
-
-                    b.ToTable("InvoiceItems");
+                    b.ToTable("InvoiceItem");
                 });
 
-            modelBuilder.Entity("LabAssist_V_3._0.Data.Item", b =>
+            modelBuilder.Entity("LabAssist_V_3._0.Models.Item", b =>
                 {
                     b.Property<int>("ItemID")
                         .ValueGeneratedOnAdd()
@@ -160,12 +178,10 @@ namespace LabAssist_V_3._0.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ItemName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<double?>("ItemPrice")
-                        .IsRequired()
+                    b.Property<double>("ItemPrice")
                         .HasColumnType("float");
 
                     b.Property<int>("UOM")
@@ -173,58 +189,49 @@ namespace LabAssist_V_3._0.Migrations
 
                     b.HasKey("ItemID");
 
-                    b.ToTable("Items");
+                    b.ToTable("Item");
                 });
 
-            modelBuilder.Entity("LabAssist_V_3._0.Data.Job", b =>
+            modelBuilder.Entity("LabAssist_V_3._0.Models.Job", b =>
                 {
                     b.Property<int>("JobID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Branch")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DoctorID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("JobDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("JobID");
 
-                    b.ToTable("Jobs");
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("DoctorID");
+
+                    b.ToTable("Job");
                 });
 
-            modelBuilder.Entity("LabAssist_V_3._0.Data.Laboratory", b =>
-                {
-                    b.Property<int>("LaboratoryID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("ContactNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmailAddress")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("LaboratoryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
-
-                    b.HasKey("LaboratoryID");
-
-                    b.ToTable("Laboratories");
-                });
-
-            modelBuilder.Entity("LabAssist_V_3._0.Data.Payment", b =>
+            modelBuilder.Entity("LabAssist_V_3._0.Models.Payment", b =>
                 {
                     b.Property<int>("PaymentID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("InvoiceID")
+                        .HasColumnType("int");
+
+                    b.Property<float>("PaymentAmount")
+                        .HasColumnType("real");
 
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
@@ -232,19 +239,14 @@ namespace LabAssist_V_3._0.Migrations
                     b.Property<int>("PaymentType")
                         .HasColumnType("int");
 
-                    b.Property<string>("PreparedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("amount")
-                        .HasColumnType("real");
-
                     b.HasKey("PaymentID");
 
-                    b.ToTable("Payments");
+                    b.HasIndex("InvoiceID");
+
+                    b.ToTable("Payment");
                 });
 
-            modelBuilder.Entity("LabAssist_V_3._0.Data.TestCompoent", b =>
+            modelBuilder.Entity("LabAssist_V_3._0.Models.TestComponent", b =>
                 {
                     b.Property<int>("TestComponentID")
                         .ValueGeneratedOnAdd()
@@ -280,50 +282,158 @@ namespace LabAssist_V_3._0.Migrations
 
                     b.HasIndex("ItemID");
 
-                    b.ToTable("TestCompoents");
+                    b.ToTable("TestComponent");
                 });
 
-            modelBuilder.Entity("LabAssist_V_3._0.Data.TestResult", b =>
+            modelBuilder.Entity("LabAssist_V_3._0.Models.TestResult", b =>
                 {
                     b.Property<int>("TestResultID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("JobID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Result")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ResultDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("TestComponentID")
+                        .HasColumnType("int");
 
                     b.HasKey("TestResultID");
 
-                    b.ToTable("TestResults");
+                    b.HasIndex("JobID");
+
+                    b.HasIndex("TestComponentID");
+
+                    b.ToTable("TestResult");
                 });
 
-            modelBuilder.Entity("LabAssist_V_3._0.Data.InvoiceItem", b =>
+            modelBuilder.Entity("LabAssist_V_3._0.Models.User", b =>
                 {
-                    b.HasOne("LabAssist_V_3._0.Data.Item", "Item")
+                    b.Property<int>("UserID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("UserID1")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("UserType")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserID");
+
+                    b.HasIndex("UserID1");
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("LabAssist_V_3._0.Models.CashBook", b =>
+                {
+                    b.HasOne("LabAssist_V_3._0.Models.Payment", "Payment")
+                        .WithMany()
+                        .HasForeignKey("PaymentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LabAssist_V_3._0.Models.Doctor", b =>
+                {
+                    b.HasOne("LabAssist_V_3._0.Models.Doctor", null)
+                        .WithMany("Doctors")
+                        .HasForeignKey("DoctorID1");
+                });
+
+            modelBuilder.Entity("LabAssist_V_3._0.Models.Invoice", b =>
+                {
+                    b.HasOne("LabAssist_V_3._0.Models.Job", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LabAssist_V_3._0.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LabAssist_V_3._0.Models.InvoiceItem", b =>
+                {
+                    b.HasOne("LabAssist_V_3._0.Models.Invoice", "Invoice")
                         .WithMany("InvoiceItem")
+                        .HasForeignKey("InvoiceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LabAssist_V_3._0.Models.Item", "Item")
+                        .WithMany()
                         .HasForeignKey("ItemID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.HasOne("LabAssist_V_3._0.Data.Laboratory", "Laboratory")
-                        .WithMany("InvoiceItem")
-                        .HasForeignKey("LaboratoryID")
+            modelBuilder.Entity("LabAssist_V_3._0.Models.Job", b =>
+                {
+                    b.HasOne("LabAssist_V_3._0.Models.Customer", "Customer")
+                        .WithMany("Jobs")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LabAssist_V_3._0.Models.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LabAssist_V_3._0.Data.TestCompoent", b =>
+            modelBuilder.Entity("LabAssist_V_3._0.Models.Payment", b =>
                 {
-                    b.HasOne("LabAssist_V_3._0.Data.Item", "Item")
+                    b.HasOne("LabAssist_V_3._0.Models.Invoice", "Invoice")
+                        .WithMany("Payments")
+                        .HasForeignKey("InvoiceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LabAssist_V_3._0.Models.TestComponent", b =>
+                {
+                    b.HasOne("LabAssist_V_3._0.Models.Item", "Item")
                         .WithMany("TestCompoent")
                         .HasForeignKey("ItemID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("LabAssist_V_3._0.Models.TestResult", b =>
+                {
+                    b.HasOne("LabAssist_V_3._0.Models.Job", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LabAssist_V_3._0.Models.TestComponent", "TestComponent")
+                        .WithMany()
+                        .HasForeignKey("TestComponentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LabAssist_V_3._0.Models.User", b =>
+                {
+                    b.HasOne("LabAssist_V_3._0.Models.User", null)
+                        .WithMany("Users")
+                        .HasForeignKey("UserID1");
                 });
 #pragma warning restore 612, 618
         }

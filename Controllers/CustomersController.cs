@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LabAssist_V_3._0.Data;
+using LabAssist_V_3._0.Models;
 
 namespace LabAssist_V_3._0.Controllers
 {
@@ -21,9 +22,8 @@ namespace LabAssist_V_3._0.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            return View(await _context.Customer.ToListAsync());
         }
-
 
         // GET: Customers/AddOrEdit
         // GET: Customers/AddOrEdit/5
@@ -34,13 +34,14 @@ namespace LabAssist_V_3._0.Controllers
                 return View(new Customer());
             else
             {
-                var customer = await _context.Customers.FindAsync(id);
+                var customer = await _context.Customer.FindAsync(id);
                 if (customer == null)
                 {
                     return NotFound();
                 }
                 return View(customer);
             }
+
         }
 
         // POST: Customers/AddOrEdit
@@ -76,9 +77,9 @@ namespace LabAssist_V_3._0.Controllers
                         }
                     }
                 }
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Customers.ToList()) });
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Customer.ToList()) });
             }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", customer)});
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", customer) });
         }
 
         // POST: Customers/Delete/5
@@ -86,15 +87,20 @@ namespace LabAssist_V_3._0.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
+            var customer = await _context.Customer.FindAsync(id);
+            _context.Customer.Remove(customer);
             await _context.SaveChangesAsync();
-            return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Customers.ToList()) });
+            return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Customer.ToList()) });
         }
 
         private bool CustomerExists(int id)
         {
-            return _context.Customers.Any(e => e.CustomerID == id);
+            return _context.Customer.Any(e => e.CustomerID == id);
+        }
+
+        public ActionResult JobCreate()
+        {
+            return View("../Jobs/create");
         }
     }
 }

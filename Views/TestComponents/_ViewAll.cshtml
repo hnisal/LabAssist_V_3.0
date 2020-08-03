@@ -1,0 +1,70 @@
+﻿@model IEnumerable<LabAssist_V_3._0.Models.TestComponent>
+
+    <table id="example1"  class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ComponentName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UOM)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RefRange)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Percentage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CTM)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CMax)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CMin)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Item)
+                </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ComponentName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UOM)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RefRange)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Percentage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CTM)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CMax)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CMin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item.ItemID)
+                    </td>
+                    <td>
+                        <a onclick="showInPopup('@Url.Action("AddOrEdit","testcomponent",new {id =item.TestComponentID },Context.Request.Scheme)','Edit Test Component')" class="btn-xs btn-success text-white">Edit</a> |
+                        <form asp-action="Delete" asp-route-id="@item.TestComponentID" onsubmit="return jQueryAjaxDelete(this);">
+                            <input type="submit" value="Delete" class="btn-xs btn-danger" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

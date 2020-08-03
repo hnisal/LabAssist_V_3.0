@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LabAssist_V_3._0.Data
+namespace LabAssist_V_3._0.Models
 {
     public class Customer
     {
@@ -37,5 +36,10 @@ namespace LabAssist_V_3._0.Data
         [StringLength(100)]
         [Display(Name = "Email Address")]
         public string EmailAddress { get; set; }
+
+
+        //---------------------------------------------
+        public ICollection<Job> Jobs { get; set; }
+
     }
 }

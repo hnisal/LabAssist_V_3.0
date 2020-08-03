@@ -1,0 +1,34 @@
+﻿@model IEnumerable<LabAssist_V_3._0.Models.User>
+
+    <table id="example1"  class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        <a onclick="showInPopup('@Url.Action("AddOrEdit","user",new {id =item.UserID },Context.Request.Scheme)','Edit User')" class="btn-xs btn-success text-white">Edit</a> |
+                        <form asp-action="Delete" asp-route-id="@item.UserID" onsubmit="return jQueryAjaxDelete(this);">
+                            <input type="submit" value="Delete" class="btn-xs btn-danger" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

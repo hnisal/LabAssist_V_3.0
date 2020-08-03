@@ -1,4 +1,4 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LabAssist_V_3._0.Data;
+using LabAssist_V_3._0.Models;
 
 namespace LabAssist_V_3._0.Controllers
 {
@@ -21,21 +22,20 @@ namespace LabAssist_V_3._0.Controllers
         // GET: Items
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Items.ToListAsync());
+            return View(await _context.Item.ToListAsync());
         }
-
-
 
         // GET: Items/AddOrEdit
         // GET: Items/AddOrEdit/5
         [NoDirectAccess]
-        public async Task<IActionResult> AddOrEditAsync(int id = 0)
+
+        public async Task<IActionResult> AddOreditAsync(int id = 0)
         {
             if (id == 0)
                 return View(new Item());
             else
             {
-                var item = await _context.Items.FindAsync(id);
+                var item = await _context.Item.FindAsync(id);
                 if (item == null)
                 {
                     return NotFound();
@@ -78,7 +78,7 @@ namespace LabAssist_V_3._0.Controllers
                         }
                     }
                 }
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Items.ToList()) });
+                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Item.ToList()) });
             }
             return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", item) });
         }
@@ -88,15 +88,15 @@ namespace LabAssist_V_3._0.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var item = await _context.Items.FindAsync(id);
-            _context.Items.Remove(item);
+            var item = await _context.Item.FindAsync(id);
+            _context.Item.Remove(item);
             await _context.SaveChangesAsync();
-            return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Items.ToList()) });
+            return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Item.ToList()) });
         }
 
         private bool ItemExists(int id)
         {
-            return _context.Items.Any(e => e.ItemID == id);
+            return _context.Item.Any(e => e.ItemID == id);
         }
     }
 }

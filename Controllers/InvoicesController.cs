@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LabAssist_V_3._0.Data;
+using LabAssist_V_3._0.Models;
 
 namespace LabAssist_V_3._0.Controllers
 {
@@ -21,65 +22,135 @@ namespace LabAssist_V_3._0.Controllers
         // GET: Invoices
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Invoices.ToListAsync());
+            var labAssistDbContext = _context.Invoice.Include(i => i.Job).Include(i => i.User);
+            return View(await labAssistDbContext.ToListAsync());
         }
 
-        // GET: Invoices/AddOrEdit
-        // GET: Invoices/AddOrEdit/5
-        [NoDirectAccess]
-
-        public async Task<IActionResult> AddOrEditAsync(int id = 0)
+        // GET: Invoices/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
-            if (id == 0)
-                return View(new Invoice());
-            else
+            if (id == null)
             {
-                var invoice = await _context.Invoices.FindAsync(id);
-                if (invoice == null)
-                {
-                    return NotFound();
-                }
-                return View(invoice);
+                return NotFound();
             }
+
+            var invoice = await _context.Invoice
+                .Include(i => i.Job)
+                .Include(i => i.User)
+                .FirstOrDefaultAsync(m => m.InvocieID == id);
+            if (invoice == null)
+            {
+                return NotFound();
+            }
+
+            return View(invoice);
         }
 
-        // POST: Invoices/AddOrEdit/5
+        // GET: Invoices/Create
+        public async Task<IActionResult> CreateAsync(int? id)
+        {
+            var job = await _context.Job.FindAsync(id);
+            if (id != job.JobID)
+            {
+                return NotFound();
+            }
+
+            ViewData["JobID"] = new SelectList(_context.Job, "JobID", "JobID", job.JobID);
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserName");
+            return View();
+        }
+
+        // POST: Invoices/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(int id, [Bind("InvocieID,PreparedBy,InvoiceData,InvoiceState")] Invoice invoice)
+        public async Task<IActionResult> Create([Bind("InvocieID,JobID,UserID,InvoiceData,InvoiceState,InvoiceTotal")] Invoice invoice)
         {
+            if (ModelState.IsValid)
+            {
+                _context.Add(invoice);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["JobID"] = new SelectList(_context.Job, "JobID", "JobID", invoice.JobID);
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserName", invoice.UserID);
+            return View(invoice);
+        }
+
+        // GET: Invoices/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var invoice = await _context.Invoice.FindAsync(id);
+            if (invoice == null)
+            {
+                return NotFound();
+            }
+            ViewData["JobID"] = new SelectList(_context.Job, "JobID", "JobID", invoice.JobID);
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserName", invoice.UserID);
+            return View(invoice);
+        }
+
+        // POST: Invoices/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("InvocieID,JobID,UserID,InvoiceData,InvoiceState,InvoiceTotal")] Invoice invoice)
+        {
+            if (id != invoice.InvocieID)
+            {
+                return NotFound();
+            }
 
             if (ModelState.IsValid)
             {
-                if (id == 0)
+                try
                 {
-                    _context.Add(invoice);
+                    _context.Update(invoice);
                     await _context.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    try
+                    if (!InvoiceExists(invoice.InvocieID))
                     {
-                        _context.Update(invoice);
-                        await _context.SaveChangesAsync();
+                        return NotFound();
                     }
-                    catch (DbUpdateConcurrencyException)
+                    else
                     {
-                        if (!InvoiceExists(invoice.InvocieID))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
+                        throw;
                     }
                 }
-                return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Invoices.ToList()) });
+                return RedirectToAction(nameof(Index));
             }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", invoice) });
+            ViewData["JobID"] = new SelectList(_context.Job, "JobID", "JobID", invoice.JobID);
+            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserName", invoice.UserID);
+            return View(invoice);
+        }
+
+        // GET: Invoices/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var invoice = await _context.Invoice
+                .Include(i => i.Job)
+                .Include(i => i.User)
+                .FirstOrDefaultAsync(m => m.InvocieID == id);
+            if (invoice == null)
+            {
+                return NotFound();
+            }
+
+            return View(invoice);
         }
 
         // POST: Invoices/Delete/5
@@ -87,15 +158,15 @@ namespace LabAssist_V_3._0.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var invoice = await _context.Invoices.FindAsync(id);
-            _context.Invoices.Remove(invoice);
+            var invoice = await _context.Invoice.FindAsync(id);
+            _context.Invoice.Remove(invoice);
             await _context.SaveChangesAsync();
-            return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Invoices.ToList()) });
+            return RedirectToAction(nameof(Index));
         }
 
         private bool InvoiceExists(int id)
         {
-            return _context.Invoices.Any(e => e.InvocieID == id);
+            return _context.Invoice.Any(e => e.InvocieID == id);
         }
     }
 }

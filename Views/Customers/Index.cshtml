@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LabAssist_V_3._0.Data.Customer>
+﻿@model IEnumerable<LabAssist_V_3._0.Models.Customer>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,6 +7,10 @@
 
 <p>
     <a onclick="showInPopup('@Url.Action("AddOrEdit","customers",null,Context.Request.Scheme)','New Customer')"><button type="button" class="btn btn-block btn-primary btn-lg">Add New Customer</button></a>
+</p>
+
+<p>
+    <a asp-action="JobCreate">Create New Job Card</a>
 </p>
 
 <section class="content">

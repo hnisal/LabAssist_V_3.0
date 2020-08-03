@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LabAssist_V_3._0.Data.Doctor>
+﻿@model IEnumerable<LabAssist_V_3._0.Models.Doctor>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,9 +7,8 @@
 
 
 <p>
-    <a onclick="showInPopup('@Url.Action("AddOrEdit","doctors",null,Context.Request.Scheme)','New Doctor')"><button type="button" class="btn btn-block btn-primary btn-lg">Add New Doctor</button></a>
+    <a onclick="showInPopup('@Url.Action("AddOrEdit","customers",null,Context.Request.Scheme)','New Customer')"><button type="button" class="btn btn-block btn-primary btn-lg">Add New Customer</button></a>
 </p>
-
 
 <section class="content">
     <div class="container-fluid">
