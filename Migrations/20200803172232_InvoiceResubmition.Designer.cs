@@ -4,14 +4,16 @@ using LabAssist_V_3._0.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LabAssist_V_3._0.Migrations
 {
     [DbContext(typeof(LabAssistDbContext))]
-    partial class LabAssistDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200803172232_InvoiceResubmition")]
+    partial class InvoiceResubmition
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -23,9 +23,8 @@ namespace LabAssist_V_3._0.Models
         [Required]
         [Display(Name = "State")]
         public InvoiceState InvoiceState { get; set; }
-        [Required]
         [Display(Name = "Invoice Total")]
-        public double InvoiceTotal { get; set; }
+        public double? InvoiceTotal { get; set; }
 
 
         //-------------------------------------------------

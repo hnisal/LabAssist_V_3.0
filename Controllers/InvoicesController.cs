@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LabAssist_V_3._0.Data;
 using LabAssist_V_3._0.Models;
+using LabAssist_V_3._0.Models.ViewModels;
 
 namespace LabAssist_V_3._0.Controllers
 {
@@ -47,18 +48,56 @@ namespace LabAssist_V_3._0.Controllers
         }
 
         // GET: Invoices/Create
-        public async Task<IActionResult> CreateAsync(int? id)
+        public IActionResult Create()
         {
-            var job = await _context.Job.FindAsync(id);
-            if (id != job.JobID)
-            {
-                return NotFound();
-            }
+            //var job = await _context.Job.FindAsync(id);
+            //if (id != job.JobID)
+            //{
+            //    return NotFound();
+            //}
 
-            ViewData["JobID"] = new SelectList(_context.Job, "JobID", "JobID", job.JobID);
-            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserName");
+            //ViewData["JobID"] = new SelectList(_context.Job, "JobID", "JobID", job.JobID);
+            //ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserName");
+            //return View();
+
+
+            var invoice = new Invoice();
+            invoice.InvoiceItem = new List<InvoiceItem>();
+            PopulateInvoiceItems(invoice);
             return View();
+
+
+
+
         }
+
+        private void PopulateInvoiceItems(Invoice invoice)
+        {
+
+            var allItems = _context.Item;
+            var invoiceItems = new HashSet<int>(invoice.InvoiceItem.Select(c => c.ItemID));
+            var viewModel = new List<SelectedItemData>();
+            foreach (var item in allItems)
+            {
+                viewModel.Add(new SelectedItemData
+                {
+                    ItemID = item.ItemID,
+                    ItemName = item.ItemName,
+                    ItemPrice = item.ItemPrice,
+                    Assigned = invoiceItems.Contains(item.ItemID)
+                });
+            }
+            ViewData["Items"] = viewModel;
+        }
+
+
+
+
+
+
+
+
+
 
         // POST: Invoices/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 

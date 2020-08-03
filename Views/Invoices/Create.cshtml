@@ -49,7 +49,50 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
+
+<div class="col-md">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">All Items</h3>
+        </div>
+        <div class="card-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Item Name</th>
+                        <th>Item Price</th>
+                        <th>Select</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        List<LabAssist_V_3._0.Models.ViewModels.SelectedItemData> items = ViewBag.Items;
+                        @foreach (var item in items)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ItemID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ItemName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ItemPrice)
+                                </td>
+                                <td>
+                                   <input type="checkbox"
+                                          name="selectedCourses"
+                                          value="@item.ItemID"
+                                          @(Html.Raw(item.Assigned ? "checked=\"checked\"" : "")) />
+                                </td>
+                               
+                            </tr>
+                        }
+                        }
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
