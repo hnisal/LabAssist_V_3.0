@@ -101,34 +101,7 @@ namespace LabAssist_V_3._0.Controllers
             
         }
 
-        private void PopulateInvoiceItems(Invoice invoice)
-        {
-
-            var allItems = _context.Item;
-            var invoiceItems = new HashSet<int>(invoice.InvoiceItem.Select(c => c.ItemID));
-            var viewModel = new List<SelectedItemData>();
-            foreach (var item in allItems)
-            {
-                viewModel.Add(new SelectedItemData
-                {
-                    ItemID = item.ItemID,
-                    ItemName = item.ItemName,
-                    ItemPrice = item.ItemPrice,
-                    Assigned = invoiceItems.Contains(item.ItemID)
-                });
-            }
-            ViewData["Items"] = viewModel;
-        }
-
-
-
-
-
-
-
-
-
-
+       
         // POST: Invoices/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -167,52 +140,100 @@ namespace LabAssist_V_3._0.Controllers
                 return NotFound();
             }
 
-            var invoice = await _context.Invoice.FindAsync(id);
+            var invoice = await _context.Invoice
+                  .Include(i => i.Job)
+                  .Include(i => i.User)
+                  .Include(i => i.InvoiceItem).ThenInclude(i => i.Item)
+                  .AsNoTracking()
+                  .FirstOrDefaultAsync(m => m.InvocieID == id);
+
             if (invoice == null)
             {
                 return NotFound();
             }
-            ViewData["JobID"] = new SelectList(_context.Job, "JobID", "JobID", invoice.JobID);
-            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserName", invoice.UserID);
+            PopulateInvoiceItems(invoice);
             return View(invoice);
         }
 
         // POST: Invoices/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("InvocieID,JobID,UserID,InvoiceData,InvoiceState,InvoiceTotal")] Invoice invoice)
-        //{
-        //    if (id != invoice.InvocieID)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int? id, string[] selectedItems)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(invoice);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!InvoiceExists(invoice.InvocieID))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["JobID"] = new SelectList(_context.Job, "JobID", "JobID", invoice.JobID);
-        //    ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserName", invoice.UserID);
-        //    return View(invoice);
-        //}
+            var invoiceToUpdate = await _context.Invoice
+                  .Include(i => i.Job)
+                  .Include(i => i.User)
+                  .Include(i => i.InvoiceItem)
+                    .ThenInclude(i => i.Item)
+                .FirstOrDefaultAsync(m => m.InvocieID == id);
+
+            if (await TryUpdateModelAsync<Invoice>(
+               invoiceToUpdate,
+               "",
+                 i => i.JobID, i => i.UserID, i => i.InvoiceData, i => i.InvoiceState, i => i.InvoiceTotal))
+            {
+                UpdateInvoiceItems(selectedItems, invoiceToUpdate);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException /* ex */)
+                {
+                    //Log the error (uncomment ex variable name and write a log.)
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            UpdateInvoiceItems(selectedItems, invoiceToUpdate);
+            PopulateInvoiceItems(invoiceToUpdate);
+            return View(invoiceToUpdate);
+        }
+        
+
+
+        private void UpdateInvoiceItems(string[] selectedItems, Invoice invoiceToUpdate)
+        {
+            if (selectedItems == null)
+            {
+                invoiceToUpdate.InvoiceItem = new List<InvoiceItem>();
+                return;
+            }
+
+            var selectedItemsHS = new HashSet<string>(selectedItems);
+            var inviceItems = new HashSet<int>
+                (invoiceToUpdate.InvoiceItem.Select(c => c.Item.ItemID));
+            foreach (var item in _context.Item)
+            {
+                if (selectedItemsHS.Contains(item.ItemID.ToString()))
+                {
+                    if (!inviceItems.Contains(item.ItemID))
+                    {
+                        invoiceToUpdate.InvoiceItem.Add(new InvoiceItem { InvoiceID = invoiceToUpdate.InvocieID, ItemID = item.ItemID });
+                    }
+                }
+                else
+                {
+
+                    if (inviceItems.Contains(item.ItemID))
+                    {
+                        InvoiceItem itemToRemove = invoiceToUpdate.InvoiceItem.FirstOrDefault(i => i.ItemID == item.ItemID);
+                        _context.Remove(itemToRemove);
+                    }
+                }
+            }
+        }
+
+
+
 
         // GET: Invoices/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -232,6 +253,25 @@ namespace LabAssist_V_3._0.Controllers
             }
 
             return View(invoice);
+        }
+
+        private void PopulateInvoiceItems(Invoice invoice)
+        {
+
+            var allItems = _context.Item;
+            var invoiceItems = new HashSet<int>(invoice.InvoiceItem.Select(c => c.ItemID));
+            var viewModel = new List<SelectedItemData>();
+            foreach (var item in allItems)
+            {
+                viewModel.Add(new SelectedItemData
+                {
+                    ItemID = item.ItemID,
+                    ItemName = item.ItemName,
+                    ItemPrice = item.ItemPrice,
+                    Assigned = invoiceItems.Contains(item.ItemID)
+                });
+            }
+            ViewData["Items"] = viewModel;
         }
 
         // POST: Invoices/Delete/5

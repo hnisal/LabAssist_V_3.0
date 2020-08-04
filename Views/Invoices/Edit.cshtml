@@ -5,48 +5,89 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<h1>Edit</h1>
+    <div class="col-md-10">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Edit Invoice</h3>
+            </div>
+            <form asp-action="Edit" role="form">
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="InvocieID" />
+                    <div class="form-group">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Item ID</th>
+                                    <th>Item Name</th>
+                                    <th>Item Price</th>
+                                    <th>Select</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pakker">
+                                @{
+                                    List<LabAssist_V_3._0.Models.ViewModels.SelectedItemData> items = ViewBag.Items;
+                                    @foreach (var item in items)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ItemID)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ItemName)
+                                            </td>
+                                            <td id="price">
+                                                @Html.DisplayFor(modelItem => item.ItemPrice)
+                                            </td>
+                                            <td>
+                                                <input type="checkbox"
+                                                       name="selectedItems"
+                                                       value="@item.ItemID"
+                                                       @(Html.Raw(item.Assigned ? "checked=\"checked\"" : "")) />
+                                            </td>
 
-<h4>Invoice</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="InvocieID" />
-            <div class="form-group">
-                <label asp-for="JobID" class="control-label"></label>
-                <select asp-for="JobID" class="form-control" asp-items="ViewBag.JobID"></select>
-                <span asp-validation-for="JobID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserID" class="control-label"></label>
-                <select asp-for="UserID" class="form-control" asp-items="ViewBag.UserID"></select>
-                <span asp-validation-for="UserID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InvoiceData" class="control-label"></label>
-                <input asp-for="InvoiceData" class="form-control" />
-                <span asp-validation-for="InvoiceData" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InvoiceState" class="control-label"></label>
-                <select asp-for="InvoiceState" class="form-control"></select>
-                <span asp-validation-for="InvoiceState" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InvoiceTotal" class="control-label"></label>
-                <input asp-for="InvoiceTotal" class="form-control" />
-                <span asp-validation-for="InvoiceTotal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="JobID" class="control-label"></label>
+                        <input asp-for="JobID" class="form-control" readonly="@(true)">
+                        <span asp-validation-for="JobID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserID" class="control-label"></label>
+                        <input asp-for="UserID" class="form-control" readonly="@(true)">
+                        <span asp-validation-for="UserID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="InvoiceData" class="control-label"></label>
+                        <input asp-for="InvoiceData" class="form-control" readonly="@(true)/>
+                        <span asp-validation-for="InvoiceData" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="InvoiceState" class="control-label"></label>
+                        <select asp-for="InvoiceState" asp-items="Html.GetEnumSelectList<LabAssist_V_3._0.Models.Enums.InvoiceState>()" class="form-control">
+                            <option selected="selected" value="">Please select</option>
+                        </select>
+                        <span asp-validation-for="InvoiceState" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="InvoiceTotal" class="control-label"></label>
+                        <input asp-for="InvoiceTotal" class="form-control" />
+                        <span asp-validation-for="InvoiceTotal" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to Index</a>
 </div>
 
