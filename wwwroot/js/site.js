@@ -91,3 +91,18 @@ jQueryAjaxDelete = form => {
     //prevent default form submit event
     return false;
 }
+
+
+//jQuery(document).ready(function ($) {
+//    var total = 0;
+//    $('#pakker :checkbox').click(function () {
+//        total = 0;
+//        $('#pakker :checkbox:checked').each(function (idx, elm) {
+//            total += parseInt(elm.value, 10);
+//        });
+
+//        $('#total').html(total);
+
+//    });
+
+//});

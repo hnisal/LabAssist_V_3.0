@@ -1,4 +1,5 @@
-﻿@model IEnumerable<LabAssist_V_3._0.Models.Invoice>
+﻿@*@model IEnumerable<LabAssist_V_3._0.Models.Invoice>*@
+@model LabAssist_V_3._0.Models.ViewModels.InvoiceIndexData
 
 @{
     ViewData["Title"] = "Index";
@@ -19,27 +20,38 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.InvoiceData)
+                                        @*@Html.DisplayNameFor(model => model.InvoiceData)*@
+                                        Date
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.InvoiceState)
+                                        @*@Html.DisplayNameFor(model => model.InvoiceState)*@
+                                        State
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.InvoiceTotal)
+                                        @*@Html.DisplayNameFor(model => model.InvoiceTotal)*@
+                                        Invoice Total
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.User)
+                                        @*@Html.DisplayNameFor(model => model.User)*@
+                                        User
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Job)
+                                        @*@Html.DisplayNameFor(model => model.Job)*@
+                                        Job
                                     </th>
-                                    <th></th>
+                                    <th>Items</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in Model)
+                                @foreach (var item in Model.Invoice)
                                 {
-                                    <tr>
+                                    string selectedRow = "";
+                                    if (item.InvocieID == (int?)ViewData["InvoiceID"])
+                                    {
+                                        selectedRow = "success";
+                                    }
+                                    <tr class="@selectedRow">
                                         <td>
                                             @Html.DisplayFor(modelItem => item.InvoiceData)
                                         </td>
@@ -56,8 +68,14 @@
                                             @Html.DisplayFor(modelItem => item.Job.JobID)
                                         </td>
                                         <td>
+                                            @{ foreach (var orderItem in item.InvoiceItem)
+                                                {
+                                                    @*@orderItem.Item.ItemID @:*@  @orderItem.Item.ItemName <br />
+                                                } }
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("Create", "Payments", new { id = item.InvocieID })">Pay</a> |
                                             <a asp-action="Edit" asp-route-id="@item.InvocieID">Edit</a> |
-                                            <a asp-action="Details" asp-route-id="@item.InvocieID">Details</a> |
                                             <a asp-action="Delete" asp-route-id="@item.InvocieID">Delete</a>
                                         </td>
                                     </tr>
