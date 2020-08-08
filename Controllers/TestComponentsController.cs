@@ -50,30 +50,13 @@ namespace LabAssist_V_3._0.Controllers
             
         }
 
-        // POST: TestComponents/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TestComponentID,ItemID,ComponentName,UOM,RefRange,Percentage,CTM,CMax,CMin")] TestComponent testComponent)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(testComponent);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ItemID"] = new SelectList(_context.Item, "ItemID", "ItemName", testComponent.ItemID);
-            return View(testComponent);
-        }
-
         // POST: TestComponents/AddOrEdit
         // POST: TestComponents/AddOrEdit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TestComponentID,ItemID,ComponentName,UOM,RefRange,Percentage,CTM,CMax,CMin")] TestComponent testComponent)
+        public async Task<IActionResult> AddOrEdit(int id, [Bind("TestComponentID,ItemID,ComponentName,UOM,RefRange,Percentage,CTM,CMax,CMin")] TestComponent testComponent)
         {
             if (ModelState.IsValid)
             {

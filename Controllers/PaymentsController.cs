@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LabAssist_V_3._0.Data;
 using LabAssist_V_3._0.Models;
+using System.Runtime.CompilerServices;
+using System.Collections;
 
 namespace LabAssist_V_3._0.Controllers
 {
@@ -46,17 +48,27 @@ namespace LabAssist_V_3._0.Controllers
         }
 
         // GET: Payments/Create
-        public async Task<IActionResult> CreateAsync( int? id)
+        public async Task<IActionResult> CreateAsync(int? id)
         {
+            var payments = from p in _context.Payment
+                           select p;
             var invoice = await _context.Invoice.FindAsync(id);
-
-            if (id == null)
+            if (id != invoice.InvocieID)
             {
                 return NotFound();
             }
 
+            double paidTotal = 0;
             
+            payments = payments.Where(p => p.InvoiceID == id);
+            foreach (var single in payments)
+            {
+                paidTotal += single.PaymentAmount;
+            }
+            double dueAmount = invoice.InvoiceTotal - paidTotal;
 
+            ViewBag.PaidTotal = paidTotal;
+            ViewBag.DueAmount = dueAmount;
             ViewData["InvoiceID"] = new SelectList(_context.Invoice, "InvocieID", "InvocieID", invoice.InvocieID);
             return View();
         }
@@ -164,6 +176,13 @@ namespace LabAssist_V_3._0.Controllers
         private bool PaymentExists(int id)
         {
             return _context.Payment.Any(e => e.PaymentID == id);
+        }
+
+        private void GetInvoiceDetails(Payment payment)
+        {
+            int id = payment.PaymentID;
+            ArrayList invoiceDetailList = new ArrayList();
+
         }
     }
 }

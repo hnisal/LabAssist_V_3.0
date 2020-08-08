@@ -159,27 +159,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         $("#phone").inputmask({ "mask": "(999) 999-9999" });
 
-
-
-
-
-        jQuery(document).ready(function ($) {
-            var total = 0;
-            $('#pakker :checkbox').click(function () {
-                total = 0;
-                $('#pakker :checkbox:checked').each(function (idx, elm) {
-                    total += parseInt(elm.value, 10);
-                });
-
-                $('#total').html(total);
- 
-            });
-
-        });
-
-
     </script>
 
+    <script>
+        $(function () {
+            debugger;
+            $('.checkedItem').click(function () {
+                var sum = 0;
+                $('.checkedItem:checked').each(function () {
+                    sum += parseFloat($(this).closest('tr').find('.price').text());
+                });
+                debugger;
+                $("#total").val(sum);
+                console.log(sum)
+            });
+        });
+    </script>
+ 
     @RenderSection("Scripts", required: false)
 </body>
 </html>

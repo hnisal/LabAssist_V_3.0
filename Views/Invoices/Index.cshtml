@@ -13,7 +13,7 @@
             <div class="col-md">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">All Items</h3>
+                        <h3 class="card-title">All Invoices</h3>
                     </div>
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
@@ -33,7 +33,7 @@
                                     </th>
                                     <th>
                                         @*@Html.DisplayNameFor(model => model.User)*@
-                                        User
+                                        Preapared By
                                     </th>
                                     <th>
                                         @*@Html.DisplayNameFor(model => model.Job)*@
@@ -74,9 +74,9 @@
                                                 } }
                                         </td>
                                         <td>
-                                            <a href="@Url.Action("Create", "Payments", new { id = item.InvocieID })">Pay</a> |
-                                            <a asp-action="Edit" asp-route-id="@item.InvocieID">Edit</a> |
-                                            <a asp-action="Delete" asp-route-id="@item.InvocieID">Delete</a>
+                                            <a href="@Url.Action("Create","payments",new {id =item.InvocieID})" class="btn-xs btn-success text-white">Pay</a>
+                                            <a asp-action="Edit" asp-route-id="@item.InvocieID" class="btn-xs btn-dark text-white">Edit</a> |
+                                            <a asp-action="Delete" asp-route-id="@item.InvocieID" class="btn-xs btn-danger text-white">Delete</a>
                                         </td>
                                     </tr>
                                 }

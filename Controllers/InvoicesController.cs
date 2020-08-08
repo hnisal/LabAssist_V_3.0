@@ -109,8 +109,11 @@ namespace LabAssist_V_3._0.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("InvocieID,JobID,UserID,InvoiceData,InvoiceState,InvoiceTotal")] Invoice invoice , string[] selectedItems)
         {
+            ViewBag.invoiceTotal = null;
+
             if (selectedItems != null)
             {
+
                 invoice.InvoiceItem = new List<InvoiceItem>();
                 foreach (var item in selectedItems)
                 {
@@ -122,9 +125,7 @@ namespace LabAssist_V_3._0.Controllers
             {
                 _context.Add(invoice);
                 await _context.SaveChangesAsync();
-                //return RedirectToAction(nameof(Index));
-                return RedirectToAction("Create", "Payments", new { id = invoice.InvocieID });
-
+                return RedirectToAction(nameof(Index));
             }
             ViewData["JobID"] = new SelectList(_context.Job, "JobID", "JobID", invoice.JobID);
             ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserName", invoice.UserID);

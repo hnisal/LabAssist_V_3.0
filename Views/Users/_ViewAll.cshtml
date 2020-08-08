@@ -23,7 +23,7 @@
                         @Html.DisplayFor(modelItem => item.UserName)
                     </td>
                     <td>
-                        <a onclick="showInPopup('@Url.Action("AddOrEdit","user",new {id =item.UserID },Context.Request.Scheme)','Edit User')" class="btn-xs btn-success text-white">Edit</a> |
+                        <a onclick="showInPopup('@Url.Action("AddOrEdit","users",new {id =item.UserID },Context.Request.Scheme)','Edit User')" class="btn-xs btn-success text-white">Edit</a> |
                         <form asp-action="Delete" asp-route-id="@item.UserID" onsubmit="return jQueryAjaxDelete(this);">
                             <input type="submit" value="Delete" class="btn-xs btn-danger" />
                         </form>
