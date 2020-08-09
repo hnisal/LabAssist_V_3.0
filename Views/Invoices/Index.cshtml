@@ -20,23 +20,18 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        @*@Html.DisplayNameFor(model => model.InvoiceData)*@
                                         Date
                                     </th>
                                     <th>
-                                        @*@Html.DisplayNameFor(model => model.InvoiceState)*@
                                         State
                                     </th>
                                     <th>
-                                        @*@Html.DisplayNameFor(model => model.InvoiceTotal)*@
                                         Invoice Total
                                     </th>
                                     <th>
-                                        @*@Html.DisplayNameFor(model => model.User)*@
                                         Preapared By
                                     </th>
                                     <th>
-                                        @*@Html.DisplayNameFor(model => model.Job)*@
                                         Job
                                     </th>
                                     <th>Items</th>
@@ -70,7 +65,7 @@
                                         <td>
                                             @{ foreach (var orderItem in item.InvoiceItem)
                                                 {
-                                                    @*@orderItem.Item.ItemID @:*@  @orderItem.Item.ItemName <br />
+                                                  @orderItem.Item.ItemName <br />
                                                 } }
                                         </td>
                                         <td>

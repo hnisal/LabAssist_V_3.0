@@ -30,6 +30,9 @@ namespace LabAssist_V_3._0.Data
         public DbSet<InvoiceItem> InvoiceItem { get; set; }
         public DbSet<Invoice> Invoice { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<JobCommision> JobCommision { get; set; }
+
+        
 
 
     }

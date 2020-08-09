@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LabAssist_V_3._0.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -150,7 +150,7 @@ namespace LabAssist_V_3._0.Migrations
                     JobID = table.Column<int>(nullable: false),
                     UserID = table.Column<int>(nullable: false),
                     InvoiceData = table.Column<DateTime>(nullable: false),
-                    State = table.Column<string>(nullable: false),
+                    InvoiceState = table.Column<int>(nullable: false),
                     InvoiceTotal = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
@@ -167,6 +167,25 @@ namespace LabAssist_V_3._0.Migrations
                         column: x => x.UserID,
                         principalTable: "User",
                         principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "JobCommision",
+                columns: table => new
+                {
+                    JobID = table.Column<int>(nullable: false),
+                    Earning = table.Column<double>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JobCommision", x => x.JobID);
+                    table.ForeignKey(
+                        name: "FK_JobCommision_Job_JobID",
+                        column: x => x.JobID,
+                        principalTable: "Job",
+                        principalColumn: "JobID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -332,6 +351,9 @@ namespace LabAssist_V_3._0.Migrations
 
             migrationBuilder.DropTable(
                 name: "InvoiceItem");
+
+            migrationBuilder.DropTable(
+                name: "JobCommision");
 
             migrationBuilder.DropTable(
                 name: "TestResult");

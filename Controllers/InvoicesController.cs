@@ -121,15 +121,34 @@ namespace LabAssist_V_3._0.Controllers
                     invoice.InvoiceItem.Add(itemToAdd);
                 }
             }
+
+
+            var jobCommision = new JobCommision
+            {
+                JobID = invoice.JobID,
+                CreatedDate = invoice.InvoiceData,
+                Earning = invoice.InvoiceTotal * 3/100
+            };
+
             if (ModelState.IsValid)
             {
                 _context.Add(invoice);
+                await _context.SaveChangesAsync();
+                _context.Add(jobCommision);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["JobID"] = new SelectList(_context.Job, "JobID", "JobID", invoice.JobID);
             ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserName", invoice.UserID);
             PopulateInvoiceItems(invoice);
+
+
+
+            
+
+
+
+
             return View(invoice);
         }
 
@@ -153,6 +172,7 @@ namespace LabAssist_V_3._0.Controllers
                 return NotFound();
             }
             PopulateInvoiceItems(invoice);
+
             return View(invoice);
         }
 

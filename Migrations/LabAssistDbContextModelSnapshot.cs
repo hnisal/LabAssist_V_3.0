@@ -220,6 +220,22 @@ namespace LabAssist_V_3._0.Migrations
                     b.ToTable("Job");
                 });
 
+            modelBuilder.Entity("LabAssist_V_3._0.Models.JobCommision", b =>
+                {
+                    b.Property<int>("JobID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Earning")
+                        .HasColumnType("float");
+
+                    b.HasKey("JobID");
+
+                    b.ToTable("JobCommision");
+                });
+
             modelBuilder.Entity("LabAssist_V_3._0.Models.Payment", b =>
                 {
                     b.Property<int>("PaymentID")
@@ -392,6 +408,15 @@ namespace LabAssist_V_3._0.Migrations
                     b.HasOne("LabAssist_V_3._0.Models.Doctor", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LabAssist_V_3._0.Models.JobCommision", b =>
+                {
+                    b.HasOne("LabAssist_V_3._0.Models.Job", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
