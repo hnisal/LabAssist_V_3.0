@@ -15,9 +15,6 @@ namespace LabAssist_V_3._0.Models
         [Required]
         public int JobID { get; set; }
         [Required]
-        [Display(Name = "Prepared By")]
-        public int UserID { get; set; }
-        [Required]
         [Display(Name = "Invoice Date")]
         public DateTime InvoiceData { get; set; }
         [Required]
@@ -28,7 +25,6 @@ namespace LabAssist_V_3._0.Models
 
 
         //-------------------------------------------------
-        public User User { get; set; }
         public Job Job { get; set; }
         public ICollection<Payment> Payments { get; set; }
         public ICollection<InvoiceItem> InvoiceItem { get; set; }

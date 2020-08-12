@@ -1,4 +1,5 @@
 ﻿using LabAssist_V_3._0.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LabAssist_V_3._0.Data
 {
-    public class LabAssistDbContext: DbContext
+    public class LabAssistDbContext: IdentityDbContext<AppUser>
     {
         public LabAssistDbContext(DbContextOptions<LabAssistDbContext> options) : base(options)
         {
@@ -17,6 +18,9 @@ namespace LabAssist_V_3._0.Data
         {
             modelBuilder.Entity<InvoiceItem>()
                 .HasKey(c => new { c.InvoiceID, c.ItemID });
+
+            base.OnModelCreating(modelBuilder);
+
         }
 
         public DbSet<CashBook> CashBook { get; set; }
@@ -29,7 +33,6 @@ namespace LabAssist_V_3._0.Data
         public DbSet<Item> Item { get; set; }
         public DbSet<InvoiceItem> InvoiceItem { get; set; }
         public DbSet<Invoice> Invoice { get; set; }
-        public DbSet<User> User { get; set; }
         public DbSet<JobCommision> JobCommision { get; set; }
 
         

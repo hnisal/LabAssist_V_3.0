@@ -26,7 +26,6 @@ namespace LabAssist_V_3._0.Controllers
             var viewModel = new InvoiceIndexData();
             viewModel.Invoice = await _context.Invoice
                   .Include(i => i.Job)
-                  .Include(i => i.User)
                   .Include(i => i.InvoiceItem)
                     .ThenInclude(i => i.Item)
                   .ToListAsync();
@@ -94,7 +93,6 @@ namespace LabAssist_V_3._0.Controllers
             }
 
             ViewData["JobID"] = new SelectList(_context.Job, "JobID", "JobID", job.JobID);
-            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserName");
             return View();
 
 
@@ -107,7 +105,7 @@ namespace LabAssist_V_3._0.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("InvocieID,JobID,UserID,InvoiceData,InvoiceState,InvoiceTotal")] Invoice invoice , string[] selectedItems)
+        public async Task<IActionResult> Create([Bind("InvocieID,JobID,InvoiceData,InvoiceState,InvoiceTotal")] Invoice invoice , string[] selectedItems)
         {
             ViewBag.invoiceTotal = null;
 
@@ -139,7 +137,6 @@ namespace LabAssist_V_3._0.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["JobID"] = new SelectList(_context.Job, "JobID", "JobID", invoice.JobID);
-            ViewData["UserID"] = new SelectList(_context.User, "UserID", "UserName", invoice.UserID);
             PopulateInvoiceItems(invoice);
 
 
@@ -162,7 +159,6 @@ namespace LabAssist_V_3._0.Controllers
 
             var invoice = await _context.Invoice
                   .Include(i => i.Job)
-                  .Include(i => i.User)
                   .Include(i => i.InvoiceItem).ThenInclude(i => i.Item)
                   .AsNoTracking()
                   .FirstOrDefaultAsync(m => m.InvocieID == id);
@@ -190,7 +186,6 @@ namespace LabAssist_V_3._0.Controllers
 
             var invoiceToUpdate = await _context.Invoice
                   .Include(i => i.Job)
-                  .Include(i => i.User)
                   .Include(i => i.InvoiceItem)
                     .ThenInclude(i => i.Item)
                 .FirstOrDefaultAsync(m => m.InvocieID == id);
@@ -198,7 +193,7 @@ namespace LabAssist_V_3._0.Controllers
             if (await TryUpdateModelAsync<Invoice>(
                invoiceToUpdate,
                "",
-                 i => i.JobID, i => i.UserID, i => i.InvoiceData, i => i.InvoiceState, i => i.InvoiceTotal))
+                 i => i.JobID, i => i.InvoiceData, i => i.InvoiceState, i => i.InvoiceTotal))
             {
                 UpdateInvoiceItems(selectedItems, invoiceToUpdate);
                 try
@@ -266,7 +261,6 @@ namespace LabAssist_V_3._0.Controllers
 
             var invoice = await _context.Invoice
                 .Include(i => i.Job)
-                .Include(i => i.User)
                 .FirstOrDefaultAsync(m => m.InvocieID == id);
             if (invoice == null)
             {
