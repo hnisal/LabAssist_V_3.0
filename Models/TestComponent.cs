@@ -35,5 +35,6 @@ namespace LabAssist_V_3._0.Models
 
         //----------------------------------------------
         public Item Item { get; set; }
+
     }
 }

@@ -35,7 +35,7 @@ namespace LabAssist_V_3._0.Data
         public DbSet<Invoice> Invoice { get; set; }
         public DbSet<JobCommision> JobCommision { get; set; }
 
-        
+
 
 
     }

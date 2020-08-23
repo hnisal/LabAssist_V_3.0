@@ -21,22 +21,24 @@ namespace LabAssist_V_3._0.Controllers
         }
 
         // GET: Invoices
-        public async Task<IActionResult> Index(int? invoiceID, int? itemID)
+        public async Task<IActionResult> Index(int? id)
         {
             var viewModel = new InvoiceIndexData();
             viewModel.Invoice = await _context.Invoice
                   .Include(i => i.Job)
                   .Include(i => i.InvoiceItem)
                     .ThenInclude(i => i.Item)
+                     .ThenInclude(i => i.TestCompoent)
                   .ToListAsync();
 
-            if (invoiceID != null)
+            if (id != null)
             {
-                ViewData["InvoiceID"] = invoiceID.Value;
+                ViewData["InvoiceID"] = id.Value;
                 Invoice invoice = viewModel.Invoice.Where(
-                    i => i.InvocieID == invoiceID.Value).Single();
+                    i => i.InvocieID == id.Value).Single();
                 viewModel.Item = invoice.InvoiceItem.Select(s => s.Item);
             }
+
 
             //if (itemID != null)
             //{
@@ -308,5 +310,33 @@ namespace LabAssist_V_3._0.Controllers
         {
             return _context.Invoice.Any(e => e.InvocieID == id);
         }
+
+        // GET: Invoices
+        public async Task<IActionResult> Print(int? id)
+        {
+            var viewModel = new InvoiceFinal();
+            viewModel.Invoice = await _context.Invoice
+                  .Include(i => i.Job)
+                     .ThenInclude(i => i.Doctor)
+                     
+                  .Include(i => i.Payment)
+                  .Include(i => i.InvoiceItem)
+                      .ThenInclude(i => i.Item)
+                  .ToListAsync();
+
+            if (id != null)
+            {
+                ViewData["InvoiceID"] = id.Value;
+                Invoice invoice = viewModel.Invoice.Where(
+                    i => i.InvocieID == id.Value).Single();
+                viewModel.Item = invoice.InvoiceItem.Select(s => s.Item);
+            }
+
+            return View(viewModel);
+        }
+
     }
 }
+
+
+

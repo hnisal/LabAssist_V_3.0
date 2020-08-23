@@ -26,7 +26,7 @@ namespace LabAssist_V_3._0.Models
 
         //-------------------------------------------------
         public Job Job { get; set; }
-        public ICollection<Payment> Payments { get; set; }
+        public ICollection<Payment> Payment { get; set; }
         public ICollection<InvoiceItem> InvoiceItem { get; set; }
 
 

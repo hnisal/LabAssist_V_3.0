@@ -29,6 +29,7 @@ namespace LabAssist_V_3._0.Models
 
         //-----------------------------------------------
         public ICollection<TestComponent> TestCompoent { get; set; }
+        public ICollection<InvoiceItem> InvoiceItem { get; set; }
 
     }
 }

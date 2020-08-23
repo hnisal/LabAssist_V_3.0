@@ -4,14 +4,16 @@ using LabAssist_V_3._0.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LabAssist_V_3._0.Migrations
 {
     [DbContext(typeof(LabAssistDbContext))]
-    partial class LabAssistDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200822100100_InitialMig")]
+    partial class InitialMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -368,9 +370,6 @@ namespace LabAssist_V_3._0.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ItemID")
-                        .HasColumnType("int");
-
                     b.Property<int>("JobID")
                         .HasColumnType("int");
 
@@ -381,8 +380,6 @@ namespace LabAssist_V_3._0.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("TestResultID");
-
-                    b.HasIndex("ItemID");
 
                     b.HasIndex("JobID");
 
@@ -556,7 +553,7 @@ namespace LabAssist_V_3._0.Migrations
                         .IsRequired();
 
                     b.HasOne("LabAssist_V_3._0.Models.Item", "Item")
-                        .WithMany("InvoiceItem")
+                        .WithMany()
                         .HasForeignKey("ItemID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -606,10 +603,6 @@ namespace LabAssist_V_3._0.Migrations
 
             modelBuilder.Entity("LabAssist_V_3._0.Models.TestResult", b =>
                 {
-                    b.HasOne("LabAssist_V_3._0.Models.Item", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemID");
-
                     b.HasOne("LabAssist_V_3._0.Models.Job", "Job")
                         .WithMany()
                         .HasForeignKey("JobID")

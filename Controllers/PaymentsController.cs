@@ -84,7 +84,7 @@ namespace LabAssist_V_3._0.Controllers
             {
                 _context.Add(payment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Invoices");
             }
             ViewData["InvoiceID"] = new SelectList(_context.Invoice, "InvocieID", "InvocieID", payment.InvoiceID);
             return View(payment);
