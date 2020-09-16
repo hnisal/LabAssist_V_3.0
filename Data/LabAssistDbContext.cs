@@ -1,10 +1,7 @@
 ﻿using LabAssist_V_3._0.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace LabAssist_V_3._0.Data
 {
@@ -14,6 +11,7 @@ namespace LabAssist_V_3._0.Data
         {
         }
 
+        // Placing composite kyes
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<InvoiceItem>()
@@ -23,6 +21,7 @@ namespace LabAssist_V_3._0.Data
 
         }
 
+        //Data accessing to tables
         public DbSet<CashBook> CashBook { get; set; }
         public DbSet<Customer> Customer { get; set; }
         public DbSet<Doctor> Doctor { get; set; }
@@ -34,9 +33,5 @@ namespace LabAssist_V_3._0.Data
         public DbSet<InvoiceItem> InvoiceItem { get; set; }
         public DbSet<Invoice> Invoice { get; set; }
         public DbSet<JobCommision> JobCommision { get; set; }
-
-
-
-
     }
 }

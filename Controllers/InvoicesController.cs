@@ -38,46 +38,9 @@ namespace LabAssist_V_3._0.Controllers
                     i => i.InvocieID == id.Value).Single();
                 viewModel.Item = invoice.InvoiceItem.Select(s => s.Item);
             }
-
-
-            //if (itemID != null)
-            //{
-            //    ViewData["ItemID"] = itemID.Value;
-            //    var selectedItem = viewModel.Item.Where(x => x.ItemID == itemID).Single();
-            //    await _context.Entry(selectedItem).Collection(x => x.Enrollments).LoadAsync();
-            //    foreach (Enrollment enrollment in selectedCourse.Enrollments)
-            //    {
-            //        await _context.Entry(enrollment).Reference(x => x.Student).LoadAsync();
-            //    }
-            //    viewModel.Enrollments = selectedCourse.Enrollments;
-            //}
-
-
-            //var labAssistDbContext = _context.Invoice.Include(i => i.Job).Include(i => i.User);
-            //return View(await labAssistDbContext.ToListAsync());
-
             return View(viewModel);
         }
 
-        // GET: Invoices/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var invoice = await _context.Invoice
-        //        .Include(i => i.Job)
-        //        .Include(i => i.User)
-        //        .FirstOrDefaultAsync(m => m.InvocieID == id);
-        //    if (invoice == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(invoice);
-        //}
 
         // GET: Invoices/Create
         public async Task<IActionResult> CreateAsync(int id)
@@ -95,16 +58,11 @@ namespace LabAssist_V_3._0.Controllers
             }
 
             ViewData["JobID"] = new SelectList(_context.Job, "JobID", "JobID", job.JobID);
-            return View();
-
-
-            
+            return View();       
         }
 
        
         // POST: Invoices/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("InvocieID,JobID,InvoiceData,InvoiceState,InvoiceTotal")] Invoice invoice , string[] selectedItems)
@@ -121,7 +79,6 @@ namespace LabAssist_V_3._0.Controllers
                     invoice.InvoiceItem.Add(itemToAdd);
                 }
             }
-
 
             var jobCommision = new JobCommision
             {
@@ -140,13 +97,6 @@ namespace LabAssist_V_3._0.Controllers
             }
             ViewData["JobID"] = new SelectList(_context.Job, "JobID", "JobID", invoice.JobID);
             PopulateInvoiceItems(invoice);
-
-
-
-            
-
-
-
 
             return View(invoice);
         }
@@ -175,8 +125,6 @@ namespace LabAssist_V_3._0.Controllers
         }
 
         // POST: Invoices/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, string[] selectedItems)
@@ -250,9 +198,6 @@ namespace LabAssist_V_3._0.Controllers
             }
         }
 
-
-
-
         // GET: Invoices/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -311,28 +256,63 @@ namespace LabAssist_V_3._0.Controllers
             return _context.Invoice.Any(e => e.InvocieID == id);
         }
 
-        // GET: Invoices
+        // GET: Test Result
         public async Task<IActionResult> Print(int? id)
         {
-            var viewModel = new InvoiceFinal();
-            viewModel.Invoice = await _context.Invoice
-                  .Include(i => i.Job)
-                     .ThenInclude(i => i.Doctor)
-                     
+
+            var invoicePrintModel = new InvoicePrint();
+            invoicePrintModel.Invoice = await _context.Invoice
                   .Include(i => i.Payment)
+                  .Include(i => i.Job)
+                    .ThenInclude(i => i.Customer)
                   .Include(i => i.InvoiceItem)
-                      .ThenInclude(i => i.Item)
+                    .ThenInclude(i => i.Item)
+                     .ThenInclude(i => i.TestCompoent)
                   .ToListAsync();
 
-            if (id != null)
-            {
-                ViewData["InvoiceID"] = id.Value;
-                Invoice invoice = viewModel.Invoice.Where(
+            
+                Invoice invoiceForCustomer = invoicePrintModel.Invoice.Where(
                     i => i.InvocieID == id.Value).Single();
-                viewModel.Item = invoice.InvoiceItem.Select(s => s.Item);
-            }
+                invoicePrintModel.Customer = invoiceForCustomer.Job.Customer;
 
-            return View(viewModel);
+                Invoice invoiceForPayment = invoicePrintModel.Invoice.Where(
+                       i => i.InvocieID == id.Value).Single();
+                invoicePrintModel.Payment = invoiceForPayment.Payment;
+
+                Invoice invoiceForItem = invoicePrintModel.Invoice.Where(
+                           i => i.InvocieID == id.Value).Single();
+                invoicePrintModel.Item = invoiceForItem.InvoiceItem.Select(s =>s.Item);
+
+            return View(invoicePrintModel);
+        }
+
+        public async Task<IActionResult> Result(int? id)
+        {
+
+            var invoicePrintModel = new InvoicePrint();
+            invoicePrintModel.Invoice = await _context.Invoice
+                  .Include(i => i.Payment)
+                  .Include(i => i.Job)
+                    .ThenInclude(i => i.Customer)
+                  .Include(i => i.InvoiceItem)
+                    .ThenInclude(i => i.Item)
+                     .ThenInclude(i => i.TestCompoent)
+                  .ToListAsync();
+
+
+            Invoice invoiceForCustomer = invoicePrintModel.Invoice.Where(
+                i => i.InvocieID == id.Value).Single();
+            invoicePrintModel.Customer = invoiceForCustomer.Job.Customer;
+
+            Invoice invoiceForPayment = invoicePrintModel.Invoice.Where(
+                   i => i.InvocieID == id.Value).Single();
+            invoicePrintModel.Payment = invoiceForPayment.Payment;
+
+            Invoice invoiceForItem = invoicePrintModel.Invoice.Where(
+                       i => i.InvocieID == id.Value).Single();
+            invoicePrintModel.Item = invoiceForItem.InvoiceItem.Select(s => s.Item);
+
+            return View(invoicePrintModel);
         }
 
     }

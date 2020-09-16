@@ -55,8 +55,6 @@ namespace LabAssist_V_3._0.Controllers
         }
 
         // POST: Jobs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("JobID,CustomerId,DoctorID,JobDate,Branch")] Job job)
@@ -91,8 +89,6 @@ namespace LabAssist_V_3._0.Controllers
         }
 
         // POST: Jobs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("JobID,CustomerId,DoctorID,JobDate,Branch")] Job job)
@@ -162,8 +158,5 @@ namespace LabAssist_V_3._0.Controllers
         {
             return _context.Job.Any(e => e.JobID == id);
         }
-
-
-
     }
 }

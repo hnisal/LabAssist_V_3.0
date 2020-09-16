@@ -74,8 +74,6 @@ namespace LabAssist_V_3._0.Controllers
         }
 
         // POST: Payments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PaymentID,InvoiceID,PaymentMethod,PaymentType,PaymentAmount")] Payment payment)
@@ -108,8 +106,6 @@ namespace LabAssist_V_3._0.Controllers
         }
 
         // POST: Payments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PaymentID,InvoiceID,PaymentMethod,PaymentType,PaymentAmount")] Payment payment)

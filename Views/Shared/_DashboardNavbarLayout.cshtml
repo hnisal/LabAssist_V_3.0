@@ -15,6 +15,10 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Contact</a>
         </li>
+        @if (User?.Identity?.IsAuthenticated ?? false)
+        {
+            <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Logout</a>
+        }
     </ul>
 </nav>
 <!-- /.navbar -->

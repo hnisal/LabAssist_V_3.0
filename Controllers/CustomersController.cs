@@ -22,7 +22,9 @@ namespace LabAssist_V_3._0.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customer.ToListAsync());
+            
+
+            return View(await _context.Customer.OrderBy(s => s.CustomerName).ToListAsync());
         }
 
         // GET: Customers/AddOrEdit
@@ -45,8 +47,6 @@ namespace LabAssist_V_3._0.Controllers
         }
 
         // POST: Customers/AddOrEdit
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddOrEdit(int id, [Bind("CustomerID,CustomerType,CustomerName,Gender,BirthDate,Address,ContactNumber,EmailAddress")] Customer customer)

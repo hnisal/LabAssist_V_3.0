@@ -110,6 +110,7 @@
                                             <a asp-action="Edit" asp-route-id="@item.InvocieID" class="btn-xs btn-dark text-white"> Edit</a> |
                                             <a asp-action="Delete" asp-route-id="@item.InvocieID" class="btn-xs btn-danger text-white"> Delete</a>
                                             <a href="@Url.Action("Index","Invoices",new {id =item.InvocieID})" class="btn-xs btn-success text-white"> Expands</a>
+                                            <a href="@Url.Action("Print","Invoices",new {id =item.InvocieID})" class="btn-xs btn-success text-white"> Print</a>
                                         </td>
                                     </tr>
                                 }

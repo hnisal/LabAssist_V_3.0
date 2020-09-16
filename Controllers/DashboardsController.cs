@@ -23,6 +23,7 @@ namespace LabAssist_V_3._0.Controllers
         }
 
         [Authorize]
+
         // GET: Dashboards
         public async Task<IActionResult> Index()
         {
